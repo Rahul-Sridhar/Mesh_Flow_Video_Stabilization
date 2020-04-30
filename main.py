@@ -17,6 +17,7 @@ frame_height = 0
 frame_count = 0
 
 def main():
+    a
     filename = sys.argv[1]
     cap = cv2.VideoCapture(filename)
     frame_rate = int(cap.get(cv2.CAP_PROP_FPS))
