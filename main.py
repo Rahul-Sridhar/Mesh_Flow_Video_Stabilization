@@ -24,7 +24,7 @@ def main():
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('/home/rahul/Desktop/mesh_flow_video_stabilization/results/stabilized_video/stable.avi', fourcc, frame_rate, (2 * frame_width, frame_height))
+    out = cv2.VideoWriter('results/stabilized_video/stable.avi', fourcc, frame_rate, (2 * frame_width, frame_height))
 
     # Parameters for ShiTomasi corner detector
     feature_params = dict(maxCorners = 1000, qualityLevel = 0.3, minDistance = 7, blockSize = 7)
@@ -88,7 +88,7 @@ def main():
         for j in range(0, x_paths.shape[1], 10):
             plt.plot(x_paths[i, j, :])
             plt.plot(sx_paths[i, j, :])
-            plt.savefig("/home/rahul/Desktop/mesh_flow_video_stabilization/results/paths/"+str(i)+"_"+str(j)+".png")
+            plt.savefig("results/paths/"+str(i)+"_"+str(j)+".png")
             plt.clf()
 
     #x_motion_meshes = np.concatenate((x_motion_meshes, np.expand_dims(x_motion_meshes[:, :, -1], axis=2)), axis=2)
@@ -117,13 +117,13 @@ def main():
                 for j in range(x_motion_mesh.shape[1]):
                     thetha = np.arctan2(y_motion_mesh[i, j], x_motion_mesh[i, j])
                     cv2.line(frame, (j*PIXELS, i*PIXELS), (int(j*PIXELS + r*np.cos(thetha)), int(i*PIXELS + r*np.sin(thetha))), 1)
-            cv2.imwrite("/home/rahul/Desktop/mesh_flow_video_stabilization/results/old_motion_vectors/" + str(frame_num) + ".jpg", frame)
+            cv2.imwrite("results/old_motion_vectors/" + str(frame_num) + ".jpg", frame)
 
             for i in range(new_x_motion_mesh.shape[0]):
                 for j in range(new_x_motion_mesh.shape[1]):
                     thetha = np.arctan2(new_y_motion_mesh[i, j], new_x_motion_mesh[i, j])
                     cv2.line(new_frame, (j*PIXELS, i*PIXELS), (int(j*PIXELS + r*np.cos(thetha)), int(i*PIXELS + r*np.sin(thetha))), 1)
-            cv2.imwrite("/home/rahul/Desktop/mesh_flow_video_stabilization/results/new_motion_vectors/" + str(frame_num) + ".jpg", new_frame)
+            cv2.imwrite("results/new_motion_vectors/" + str(frame_num) + ".jpg", new_frame)
 
             frame_num += 1
             bar.update(1)
