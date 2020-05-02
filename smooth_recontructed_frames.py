@@ -45,14 +45,14 @@ def mesh_warp_frame(frame, x_motion_mesh, y_motion_mesh, PIXELS):
                     map_x[k, l] = x
                     map_y[k, l] = y
 
-    for i in range(PIXELS * x_motion_mesh.shape[0], map_x.shape[0]):
-        map_x[i, :] = map_x[PIXELS * x_motion_mesh.shape[0] - 1, :]
-        map_y[i, :] = map_y[PIXELS * x_motion_mesh.shape[0] - 1, :]
-
-        # repeat motion vectors for remaining frame in x-direction
-    for j in range(PIXELS * x_motion_mesh.shape[1], map_x.shape[1]):
-        map_x[:, j] = map_x[:, PIXELS * x_motion_mesh.shape[0] - 1]
-        map_y[:, j] = map_y[:, PIXELS * x_motion_mesh.shape[0] - 1]
+    # for i in range(PIXELS * x_motion_mesh.shape[0], map_x.shape[0]):
+    #     map_x[i, :] = map_x[PIXELS * x_motion_mesh.shape[0] - 1, :]
+    #     map_y[i, :] = map_y[PIXELS * x_motion_mesh.shape[0] - 1, :]
+    #
+    #     # repeat motion vectors for remaining frame in x-direction
+    # for j in range(PIXELS * x_motion_mesh.shape[1], map_x.shape[1]):
+    #     map_x[:, j] = map_x[:, PIXELS * x_motion_mesh.shape[0] - 1]
+    #     map_y[:, j] = map_y[:, PIXELS * x_motion_mesh.shape[0] - 1]
 
         # deforms mesh
     new_frame = cv2.remap(frame, map_x, map_y, interpolation=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT)

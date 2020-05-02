@@ -38,6 +38,10 @@ def main():
 
     VERTICAL_BORDER = int((HORIZONTAL_BORDER * old_gray.shape[1]) / old_gray.shape[0])
 
+    [frame_width, frame_height, _] = old_frame[HORIZONTAL_BORDER:-HORIZONTAL_BORDER, VERTICAL_BORDER:-VERTICAL_BORDER,:].shape
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter('results/stabilized_video/stable.avi', fourcc, frame_rate, (2 * frame_height, frame_width))
+
     x_motion_meshes = []
     y_motion_meshes = []
 
@@ -109,8 +113,10 @@ def main():
             new_y_motion_mesh = new_y_motion_meshes[:, :, frame_num]
             new_frame = mesh_warp_frame(frame, new_x_motion_mesh, new_y_motion_mesh, PIXELS)
             new_frame = new_frame[HORIZONTAL_BORDER:-HORIZONTAL_BORDER, VERTICAL_BORDER:-VERTICAL_BORDER, :]
+            new_frame_demo = new_frame
             new_frame = cv2.resize(new_frame, (frame.shape[1], frame.shape[0]), interpolation = cv2.INTER_CUBIC)
-            output = np.concatenate((frame, new_frame), axis=1)
+            frame_demo = cv2.resize(frame, (new_frame_demo.shape[1], new_frame_demo.shape[0]), interpolation = cv2.INTER_CUBIC)
+            output = np.concatenate((frame_demo, new_frame_demo), axis=1)
             out.write(output)
 
             for i in range(x_motion_mesh.shape[0]):
